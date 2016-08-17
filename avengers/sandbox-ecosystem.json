@@ -1,0 +1,37 @@
+{
+  /**
+   * Application configuration section
+   * http://pm2.keymetrics.io/docs/usage/application-declaration/
+   */
+  apps : [
+
+    // Application for sandbox
+    {
+      name      : "sandbox-CP",
+      script    : "dist/server/app.js",
+      env: {
+        NODE_ENV: "production"
+      },
+      env_sandbox : {
+        GODAM_DOMAIN: "http://54.169.252.40",
+        PORT: 9003
+      }
+    }
+  ],
+
+  /**
+   * Deployment section
+   * http://pm2.keymetrics.io/docs/usage/deployment/
+   */
+  deploy : {
+    sandbox : {
+      user : "ubuntu",
+      host : "54.169.223.240",
+      ref  : "origin/master",
+      repo : "git@github.com:delhivery/GM-ClientPanel.git",
+      path : "/home/ubuntu/sandbox",
+      "pre-deploy": ". ~/.nvm/nvm.sh && nvm use clientPanel",
+      "post-deploy" : "export PATH=$PATH:/home/ubuntu/.nvm/v0.10.33/bin/ && npm install && pm2 startOrRestart sandbox-ecosystem.json --env sandbox"
+    }
+  }
+}

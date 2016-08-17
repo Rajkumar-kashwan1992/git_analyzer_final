@@ -1,0 +1,36 @@
+{
+  /**
+   * Application configuration section
+   * http://pm2.keymetrics.io/docs/usage/application-declaration/
+   */
+  apps : [   
+    // Application for dev
+    {
+      name      : "dev-CP",
+      script    : "dist/server/app.js",
+      env: {
+        NODE_ENV: "production"
+      },
+      env_dev : {
+        GODAM_DOMAIN: "http://dev-godam.delhivery.com",
+        PORT: 9001
+      }
+    }
+  ],
+
+  /**
+   * Deployment section
+   * http://pm2.keymetrics.io/docs/usage/deployment/
+   */
+  deploy : {   
+    dev : {
+      user : "ubuntu",
+      host : "54.169.223.240",
+      ref  : "origin/qa",
+      repo : "git@github.com:delhivery/GM-ClientPanel.git",
+      path : "/home/ubuntu/dev",
+      "pre-deploy": ". ~/.nvm/nvm.sh && nvm use clientPanel",
+      "post-deploy" : "export PATH=$PATH:/home/ubuntu/.nvm/v0.10.33/bin/ && npm install && pm2 startOrRestart dev-ecosystem.json --env dev"
+    }
+  }
+}

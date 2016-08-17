@@ -1,0 +1,35 @@
+{
+  /**
+   * Application configuration section
+   * http://pm2.keymetrics.io/docs/usage/application-declaration/
+   */
+  apps : [
+    {
+      name      : "release-CP",
+      script    : "dist/server/app.js",
+      env: {
+        NODE_ENV: "production"
+      },
+      env_release : {
+        GODAM_DOMAIN: "http://release-godam.delhivery.com",
+        PORT: 9002
+      }
+    }
+  ],
+
+  /**
+   * Deployment section
+   * http://pm2.keymetrics.io/docs/usage/deployment/
+   */
+  deploy : {
+    release : {
+      user : "ubuntu",
+      host : "54.169.223.240",
+      ref  : "origin/master",
+      repo : "git@github.com:delhivery/ClientPanel.git",
+      path : "/home/ubuntu/release",
+      "pre-deploy": ". ~/.nvm/nvm.sh && nvm use clientPanel",
+      "post-deploy" : "export PATH=$PATH:/home/ubuntu/.nvm/v0.10.33/bin/ && npm install && pm2 startOrRestart release-ecosystem.json --env release"
+    }
+  }
+}

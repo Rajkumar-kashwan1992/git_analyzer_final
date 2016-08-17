@@ -1,0 +1,26 @@
+<!-- Login View of the App -->
+        
+<table class = "loginpage">
+        <tr>
+            <td><h1 style = "font-family:serif; ">GIT Review Information</h1></td>
+        </tr>
+        <tr>
+            <td>
+                 <center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
+
+            </td>
+        </tr>
+    </table> 
+ <script>
+ //SignIn Function//
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+        window.localStorage.setItem('ID', profile.getId());
+        window.location.href = '/dashboard';
+    }
+
+ </script>
